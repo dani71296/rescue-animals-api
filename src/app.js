@@ -1,8 +1,10 @@
 const express = require('express');
 require('dotenv').config();
 const connectDB = require('./config/db');
-const animalRoutes = require('./routes/animalRoutes');
 const errorHandler = require('./middleware/errorHandler');
+const cors = require('cors');
+const routes = require('./routes/index');
+
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -11,17 +13,15 @@ const PORT = process.env.PORT || 8080;
 connectDB();
 
 // Middleware para procesar JSON
-app.use(express.json());
-
-// Ruta inicial de prueba
-app.get('/', (req, res) => {
-    res.send('Animal Rescue API is running correctly');
-});
-
-// Rutas de las colecciones
-app.use('/animals', animalRoutes);
-
-// Middleware de manejo de errores
+app.use(cors())
+app.use(express.json())
+app.use((req, res, next) => {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+        next();
+    })
+app.use('/', routes)
 app.use(errorHandler);
 
 app.listen(PORT, () => {
