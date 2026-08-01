@@ -15,7 +15,7 @@ exports.getAllUsers = async (req, res, next) => {
 // GET /users/:id - Obtener un usuario por ID
 exports.getUserById = async (req, res, next) => {
     // #swagger.tags = ['Users'];
-    // #swagger.description = 'Endpoint to retrieve a user by
+    // #swagger.description = 'Endpoint to retrieve a user by ID.';
     try {
         const user = await User.findById(req.params.id);
         if (!user) {
@@ -36,9 +36,6 @@ exports.createUser = async (req, res, next) => {
         const savedUser = await newUser.save();
         res.status(201).json(savedUser);
     } catch (error) {
-        if (error.name === 'ValidationError') {
-            return res.status(400).json({ message: 'Validation error in provided data', errors: error.errors });
-        }
         next(error);
     }
 };
@@ -58,9 +55,6 @@ exports.updateUser = async (req, res, next) => {
         }
         res.status(200).json(updatedUser);
     } catch (error) {
-        if (error.name === 'ValidationError') {
-            return res.status(400).json({ message: 'Validation error on update', errors: error.errors });
-        }
         next(error);
     }
 };

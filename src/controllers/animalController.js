@@ -36,9 +36,6 @@ exports.createAnimal = async (req, res, next) => {
         const savedAnimal = await newAnimal.save();
         res.status(201).json(savedAnimal);
     } catch (error) {
-        if (error.name === 'ValidationError') {
-            return res.status(400).json({ message: 'Validation error in provided data', errors: error.errors });
-        }
         next(error);
     }
 };
@@ -58,9 +55,6 @@ exports.updateAnimal = async (req, res, next) => {
         }
         res.status(200).json(updatedAnimal);
     } catch (error) {
-        if (error.name === 'ValidationError') {
-            return res.status(400).json({ message: 'Validation error on update', errors: error.errors });
-        }
         next(error);
     }
 };

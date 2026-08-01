@@ -52,9 +52,6 @@
         "responses": {
           "201": {
             "description": "Created"
-          },
-          "400": {
-            "description": "Bad Request"
           }
         }
       }
@@ -98,9 +95,6 @@
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
           },
           "404": {
             "description": "Not Found"
@@ -150,9 +144,6 @@
         "responses": {
           "201": {
             "description": "Created"
-          },
-          "400": {
-            "description": "Bad Request"
           }
         }
       }
@@ -162,7 +153,7 @@
         "tags": [
           "Users"
         ],
-        "description": "Endpoint to retrieve a user by  try {  const user = await User.findById(req.params.id);  if (!user) {  return res.status(404).json({ message: ",
+        "description": "Endpoint to retrieve a user by ID.",
         "parameters": [
           {
             "name": "id",
@@ -172,8 +163,11 @@
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       },
@@ -193,9 +187,6 @@
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
           },
           "404": {
             "description": "Not Found"
