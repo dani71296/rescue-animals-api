@@ -5,33 +5,13 @@
     "description": "This is the API documentation for the Paws & Homes Foundation. It provides information about the available endpoints, request parameters, and response formats.",
     "version": "1.0.0"
   },
-  "host": "localhost:8080",
+  "host": "rescue-animals-api.onrender.com",
   "basePath": "/",
   "schemes": [
-    "http",
-    "https"
+    "https",
+    "http"
   ],
   "paths": {
-    "/": {
-      "get": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api-docs": {
-      "get": {
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
     "/animals/": {
       "get": {
         "tags": [
@@ -101,6 +81,9 @@
         "responses": {
           "201": {
             "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
           }
         }
       }
@@ -184,6 +167,9 @@
           "200": {
             "description": "OK"
           },
+          "400": {
+            "description": "Bad Request"
+          },
           "404": {
             "description": "Not Found"
           }
@@ -233,7 +219,7 @@
           {
             "name": "body",
             "in": "body",
-            "description": "New User details",
+            "description": "User data to update",
             "required": true,
             "schema": {
               "type": "object",
@@ -246,13 +232,9 @@
                   "type": "string",
                   "example": "carlos@example.com"
                 },
-                "password": {
-                  "type": "string",
-                  "example": "password123"
-                },
                 "age": {
                   "type": "number",
-                  "example": 28
+                  "example": 29
                 },
                 "gender": {
                   "type": "string",
@@ -265,22 +247,27 @@
                 "rol": {
                   "type": "string",
                   "example": "user"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "newpassword123"
                 }
-              },
-              "required": [
-                "name",
-                "email",
-                "password",
-                "age",
-                "gender",
-                "phone"
-              ]
+              }
             }
           }
         ],
         "responses": {
-          "201": {
-            "description": "Created"
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "409": {
+            "description": "Conflict"
           }
         }
       }
@@ -312,7 +299,7 @@
         "tags": [
           "Users"
         ],
-        "description": "Endpoint to update a user in the database.",
+        "description": "Endpoint to update a user by ID.",
         "parameters": [
           {
             "name": "id",
@@ -351,17 +338,18 @@
                 "rol": {
                   "type": "string",
                   "example": "user"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "newpassword123"
                 }
               }
             }
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
+          "default": {
+            "description": ""
           }
         }
       },

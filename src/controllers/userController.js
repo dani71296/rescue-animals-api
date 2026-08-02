@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const mongoose = require('mongoose');
 
 // GET /users - Obtener todos los usuarios
 exports.getAllUsers = async (req, res, next) => {
@@ -29,8 +30,11 @@ exports.getUserById = async (req, res, next) => {
 
 // POST /users - Crear un nuevo usuario
 exports.createUser = async (req, res, next) => {
-    /*  #swagger.tags = ['Users']
-        #swagger.description = 'Endpoint to create a new user in the database.'
+    /*
+    #swagger.tags = ['Users'];
+    #swagger.description = 'Endpoint to create a new user in the database.';
+    
+    ```
         #swagger.parameters['body'] = {
             in: 'body',
             description: 'New User details',
@@ -46,19 +50,44 @@ exports.createUser = async (req, res, next) => {
             }
         }
     */
+    const user = {
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password,
+        age: req.body.age,
+        gender: req.body.gender,
+        phone: req.body.phone,
+        rol: req.body.rol || 'user'
+    };
     try {
-        const newUser = new User(req.body);
+        const newUser = new User(user);
         const savedUser = await newUser.save();
         res.status(201).json(savedUser);
     } catch (error) {
+        console.error('Error creating user:', error);
+        if (error.name === 'ValidationError') {
+            return res.status(400).json({
+                message: 'Validation error in provided data',
+                errors: error.errors
+            });
+        }
+        if (error.code === 11000) {
+            return res.status(409).json({
+                message: 'Email already exists'
+            });
+        }
         next(error);
     }
 };
 
+
 // PUT /users/:id - Actualizar un usuario
 exports.updateUser = async (req, res, next) => {
-    /*  #swagger.tags = ['Users']
-        #swagger.description = 'Endpoint to update a user in the database.'
+    /*
+    #swagger.tags = ['Users'];
+    #swagger.description = 'Endpoint to update a user by ID.';
+    
+    ```
         #swagger.parameters['body'] = {
             in: 'body',
             description: 'User data to update',
@@ -69,24 +98,60 @@ exports.updateUser = async (req, res, next) => {
                 age: 29,
                 gender: 'Male',
                 phone: '5555-9999',
-                rol: 'user'
+                rol: 'user',
+                password: 'newpassword123'
             }
         }
     */
+
+    const userId = req.params.id;
+    // Validate MongoDB ObjectId
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+        return res.status(400).json({
+            error: 'Invalid user ID'
+        });
+    }
+    const updateData = {
+        name: req.body.name,
+        email: req.body.email,
+        age: req.body.age,
+        gender: req.body.gender,
+        phone: req.body.phone,
+        rol: req.body.rol,
+        password: req.body.passwords
+    };
     try {
         const updatedUser = await User.findByIdAndUpdate(
-            req.params.id,
-            req.body,
-            { new: true, runValidators: true }
+            userId,
+            { $set: updateData },
+            {
+                new: true,
+                runValidators: true
+            }
         );
         if (!updatedUser) {
-            return res.status(404).json({ message: 'User not found' });
+            return res.status(404).json({
+                error: 'User not found'
+            });
         }
         res.status(200).json(updatedUser);
     } catch (error) {
+        console.error('Error updating user:', error);
+        if (error.name === 'ValidationError') {
+            return res.status(400).json({
+                message: 'Validation error in provided data',
+                errors: error.errors
+            });
+        }
+        if (error.code === 11000) {
+            return res.status(409).json({
+                message: 'Email already exists'
+            });
+        }
         next(error);
     }
 };
+
 
 // DELETE /users/:id - Eliminar un usuario
 exports.deleteUser = async (req, res, next) => {

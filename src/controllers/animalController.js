@@ -1,4 +1,5 @@
 const Animal = require('../models/Animal');
+const mongoose = require('mongoose');
 
 // GET /animals - Obtener todos los animales
 exports.getAllAnimals = async (req, res, next) => {
@@ -46,11 +47,28 @@ exports.createAnimal = async (req, res, next) => {
             }
         }
     */
+   const animal = {  
+        name: req.body.name,
+        species: req.body.species,
+        breed: req.body.breed,
+        age: req.body.age,
+        gender: req.body.gender,
+        healthStatus: req.body.healthStatus,
+        status: req.body.status || 'available',
+        rescueDate: req.body.rescueDate || Date.now()
+   }
     try {
-        const newAnimal = new Animal(req.body);
+        const newAnimal = new Animal(animal);
         const savedAnimal = await newAnimal.save();
         res.status(201).json(savedAnimal);
     } catch (error) {
+        console.error('Error creating animal:', error);
+        if (error.name === 'ValidationError') {
+            return res.status(400).json({
+                message: 'Validation error in provided data',
+                errors: error.errors
+            });
+        }
         next(error);
     }
 };
@@ -74,10 +92,24 @@ exports.updateAnimal = async (req, res, next) => {
             }
         }
     */
+   const animalid = req.params.id;
+   if (!mongoose.Types.ObjectId.isValid(animalid)) {
+        return res.status(400).json({ message: 'Invalid animal ID' });
+    }
+    const updateDataAnimal = {
+        name: req.body.name,
+        species: req.body.species,
+        breed: req.body.breed,
+        age: req.body.age,
+        gender: req.body.gender,
+        healthStatus: req.body.healthStatus,
+        status: req.body.status || 'available',
+        rescueDate: req.body.rescueDate || Date.now()
+    };
     try {
         const updatedAnimal = await Animal.findByIdAndUpdate(
-            req.params.id,
-            req.body,
+            animalid,
+            { $set: updateDataAnimal },
             { new: true, runValidators: true }
         );
         if (!updatedAnimal) {
