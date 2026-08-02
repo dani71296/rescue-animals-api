@@ -57,8 +57,23 @@ exports.createAnimal = async (req, res, next) => {
 
 // PUT /animals/:id - Actualizar un animal
 exports.updateAnimal = async (req, res, next) => {
-    // #swagger.tags = ['Animals'];
-    // #swagger.description = 'Endpoint to update an animal in the database.';
+    /*  #swagger.tags = ['Animals']
+        #swagger.description = 'Endpoint to update an animal in the database.'
+        #swagger.parameters['body'] = {
+            in: 'body',
+            description: 'Animal data to update',
+            required: true,
+            schema: {
+                name: 'Firulais',
+                species: 'Dog',
+                breed: 'Beagle',
+                age: 3,
+                gender: 'Male',
+                healthStatus: 'Healthy',
+                status: 'adopted'
+            }
+        }
+    */
     try {
         const updatedAnimal = await Animal.findByIdAndUpdate(
             req.params.id,

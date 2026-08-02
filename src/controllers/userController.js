@@ -57,8 +57,22 @@ exports.createUser = async (req, res, next) => {
 
 // PUT /users/:id - Actualizar un usuario
 exports.updateUser = async (req, res, next) => {
-    // #swagger.tags = ['Users'];
-    // #swagger.description = 'Endpoint to update a user in the database.';
+    /*  #swagger.tags = ['Users']
+        #swagger.description = 'Endpoint to update a user in the database.'
+        #swagger.parameters['body'] = {
+            in: 'body',
+            description: 'User data to update',
+            required: true,
+            schema: {
+                name: 'Carlos Perez',
+                email: 'carlos@example.com',
+                age: 29,
+                gender: 'Male',
+                phone: '5555-9999',
+                rol: 'user'
+            }
+        }
+    */
     try {
         const updatedUser = await User.findByIdAndUpdate(
             req.params.id,

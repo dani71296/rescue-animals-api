@@ -139,6 +139,45 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Animal data to update",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Firulais"
+                },
+                "species": {
+                  "type": "string",
+                  "example": "Dog"
+                },
+                "breed": {
+                  "type": "string",
+                  "example": "Beagle"
+                },
+                "age": {
+                  "type": "number",
+                  "example": 3
+                },
+                "gender": {
+                  "type": "string",
+                  "example": "Male"
+                },
+                "healthStatus": {
+                  "type": "string",
+                  "example": "Healthy"
+                },
+                "status": {
+                  "type": "string",
+                  "example": "adopted"
+                }
+              }
+            }
           }
         ],
         "responses": {
@@ -280,6 +319,41 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "User data to update",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Carlos Perez"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "carlos@example.com"
+                },
+                "age": {
+                  "type": "number",
+                  "example": 29
+                },
+                "gender": {
+                  "type": "string",
+                  "example": "Male"
+                },
+                "phone": {
+                  "type": "string",
+                  "example": "5555-9999"
+                },
+                "rol": {
+                  "type": "string",
+                  "example": "user"
+                }
+              }
+            }
           }
         ],
         "responses": {
