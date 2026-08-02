@@ -5,11 +5,11 @@
     "description": "This is the API documentation for the Paws & Homes Foundation. It provides information about the available endpoints, request parameters, and response formats.",
     "version": "1.0.0"
   },
-  "host": "localhost:8080",
+  "host": "rescue-animals-api.onrender.com",
   "basePath": "/",
   "schemes": [
-    "http",
-    "https"
+    "https",
+    "http"
   ],
   "paths": {
     "/": {
