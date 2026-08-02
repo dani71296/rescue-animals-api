@@ -29,8 +29,23 @@ exports.getUserById = async (req, res, next) => {
 
 // POST /users - Crear un nuevo usuario
 exports.createUser = async (req, res, next) => {
-    // #swagger.tags = ['Users'];
-    // #swagger.description = 'Endpoint to create a new user in the database.';
+    /*  #swagger.tags = ['Users']
+        #swagger.description = 'Endpoint to create a new user in the database.'
+        #swagger.parameters['body'] = {
+            in: 'body',
+            description: 'New User details',
+            required: true,
+            schema: {
+                $name: 'Carlos Perez',
+                $email: 'carlos@example.com',
+                $password: 'password123',
+                $age: 28,
+                $gender: 'Male',
+                $phone: '5555-9999',
+                rol: 'user'
+            }
+        }
+    */
     try {
         const newUser = new User(req.body);
         const savedUser = await newUser.save();

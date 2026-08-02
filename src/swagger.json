@@ -5,11 +5,11 @@
     "description": "This is the API documentation for the Paws & Homes Foundation. It provides information about the available endpoints, request parameters, and response formats.",
     "version": "1.0.0"
   },
-  "host": "rescue-animals-api.onrender.com",
+  "host": "localhost:8080",
   "basePath": "/",
   "schemes": [
-    "https",
-    "http"
+    "http",
+    "https"
   ],
   "paths": {
     "/": {
@@ -49,6 +49,55 @@
           "Animals"
         ],
         "description": "Endpoint to create a new animal in the database.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "New Animal details",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Firulais"
+                },
+                "species": {
+                  "type": "string",
+                  "example": "Dog"
+                },
+                "breed": {
+                  "type": "string",
+                  "example": "Beagle"
+                },
+                "age": {
+                  "type": "number",
+                  "example": 2
+                },
+                "gender": {
+                  "type": "string",
+                  "example": "Male"
+                },
+                "healthStatus": {
+                  "type": "string",
+                  "example": "Healthy"
+                },
+                "status": {
+                  "type": "string",
+                  "example": "available"
+                }
+              },
+              "required": [
+                "name",
+                "species",
+                "breed",
+                "age",
+                "gender",
+                "healthStatus"
+              ]
+            }
+          }
+        ],
         "responses": {
           "201": {
             "description": "Created"
@@ -141,6 +190,55 @@
           "Users"
         ],
         "description": "Endpoint to create a new user in the database.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "New User details",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Carlos Perez"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "carlos@example.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "password123"
+                },
+                "age": {
+                  "type": "number",
+                  "example": 28
+                },
+                "gender": {
+                  "type": "string",
+                  "example": "Male"
+                },
+                "phone": {
+                  "type": "string",
+                  "example": "5555-9999"
+                },
+                "rol": {
+                  "type": "string",
+                  "example": "user"
+                }
+              },
+              "required": [
+                "name",
+                "email",
+                "password",
+                "age",
+                "gender",
+                "phone"
+              ]
+            }
+          }
+        ],
         "responses": {
           "201": {
             "description": "Created"

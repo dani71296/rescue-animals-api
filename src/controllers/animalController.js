@@ -29,8 +29,23 @@ exports.getAnimalById = async (req, res, next) => {
 
 // POST /animals - Crear un nuevo animal
 exports.createAnimal = async (req, res, next) => {
-    // #swagger.tags = ['Animals'];
-    // #swagger.description = 'Endpoint to create a new animal in the database.';
+    /*  #swagger.tags = ['Animals']
+        #swagger.description = 'Endpoint to create a new animal in the database.'
+        #swagger.parameters['body'] = {
+            in: 'body',
+            description: 'New Animal details',
+            required: true,
+            schema: {
+                $name: 'Firulais',
+                $species: 'Dog',
+                $breed: 'Beagle',
+                $age: 2,
+                $gender: 'Male',
+                $healthStatus: 'Healthy',
+                status: 'available'
+            }
+        }
+    */
     try {
         const newAnimal = new Animal(req.body);
         const savedAnimal = await newAnimal.save();
