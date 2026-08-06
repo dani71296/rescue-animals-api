@@ -3,6 +3,7 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const Animal = require('../models/Animal');
 const User = require('../models/User');
+const Report = require('../models/Report');
 
 const connectDB = require('./db');
 
@@ -13,6 +14,7 @@ const seedDatabase = async () => {
         // Limpiar datos existentes
         await Animal.deleteMany({});
         await User.deleteMany({});
+        await Report.deleteMany({});
 
         // Crear animales
         const animals = await Animal.insertMany([
@@ -108,8 +110,49 @@ const seedDatabase = async () => {
             }
         ]);
 
+        // Crear reportes (relacionados a los usuarios ya creados)
+        const reports = await Report.insertMany([
+            {
+                userId: users[3]._id, // Maria Lopez
+                location: 'Av. Siempre Viva 742, Cordoba',
+                description: 'Perro herido en la via publica, parece atropellado',
+                animalType: 'Dog',
+                status: 'pending',
+                contactPhone: '5555-4444',
+                incidentDate: new Date('2026-05-01')
+            },
+            {
+                userId: users[1]._id, // Daniel Tudela
+                location: 'Parque Sarmiento, cerca del lago',
+                description: 'Gato abandonado en una caja, muy debil',
+                animalType: 'Cat',
+                status: 'in_progress',
+                contactPhone: '5555-2222',
+                incidentDate: new Date('2026-06-12')
+            },
+            {
+                userId: users[2]._id, // Sergio Bergerat
+                location: 'Ruta 20, km 15',
+                description: 'Grupo de cachorros solos cerca de la banquina',
+                animalType: 'Dog',
+                status: 'resolved',
+                contactPhone: '5555-3333',
+                incidentDate: new Date('2026-04-20')
+            },
+            {
+                userId: users[3]._id, // Maria Lopez
+                location: 'Barrio Alberdi, calle 27',
+                description: 'Reporte duplicado, ya fue atendido por otro voluntario',
+                animalType: 'Cat',
+                status: 'cancelled',
+                contactPhone: '5555-4444',
+                incidentDate: new Date('2026-07-02')
+            }
+        ]);
+
         console.log(`✅ ${animals.length} animals created`);
         console.log(`✅ ${users.length} users created`);
+        console.log(`✅ ${reports.length} reports created`);
 
         console.log('🎉 Database seeded successfully!');
 
