@@ -5,13 +5,33 @@
     "description": "This is the API documentation for the Paws & Homes Foundation. It provides information about the available endpoints, request parameters, and response formats.",
     "version": "1.0.0"
   },
-  "host": "rescue-animals-api.onrender.com",
+  "host": "localhost:8080",
   "basePath": "/",
   "schemes": [
-    "https",
-    "http"
+    "http",
+    "https"
   ],
   "paths": {
+    "/": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api-docs": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/animals/": {
       "get": {
         "tags": [
@@ -358,6 +378,182 @@
           "Users"
         ],
         "description": "Endpoint to delete a user from the database.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/reports/": {
+      "get": {
+        "tags": [
+          "Reports"
+        ],
+        "description": "Endpoint to retrieve all reports from the database.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Reports"
+        ],
+        "description": "Endpoint to create a new report in the database.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "New Report details",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "userId": {
+                  "type": "string",
+                  "example": "65f1a2b3c4d5e6f7a8b9c0d1"
+                },
+                "location": {
+                  "type": "string",
+                  "example": "Av. Siempre Viva 742"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Perro herido en la vía pública"
+                },
+                "animalType": {
+                  "type": "string",
+                  "example": "Dog"
+                },
+                "contactPhone": {
+                  "type": "string",
+                  "example": "5555-9999"
+                },
+                "status": {
+                  "type": "string",
+                  "example": "pending"
+                }
+              },
+              "required": [
+                "userId",
+                "location",
+                "description",
+                "animalType",
+                "contactPhone"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/reports/{id}": {
+      "get": {
+        "tags": [
+          "Reports"
+        ],
+        "description": "Endpoint to retrieve a report by ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Reports"
+        ],
+        "description": "Endpoint to update a report in the database.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Report data to update",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "location": {
+                  "type": "string",
+                  "example": "Av. Siempre Viva 742"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Perro herido en la vía pública, ya fue asistido"
+                },
+                "animalType": {
+                  "type": "string",
+                  "example": "Dog"
+                },
+                "status": {
+                  "type": "string",
+                  "example": "in_progress"
+                },
+                "contactPhone": {
+                  "type": "string",
+                  "example": "5555-9999"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Reports"
+        ],
+        "description": "Endpoint to delete a report from the database.",
         "parameters": [
           {
             "name": "id",
