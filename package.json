@@ -17,6 +17,7 @@
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "express-validator": "^7.3.2",
     "mongoose": "^9.8.1",
     "swagger": "^0.7.5",
     "swagger-autogen": "^2.23.7",
