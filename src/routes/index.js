@@ -4,6 +4,7 @@ const userRoutes = require('./userRoutes');
 const adoptionRoutes = require('./adoptionRoutes');
 const reportRoutes = require('./reportRoutes');
 const swaggerRoutes = require('./swagger');
+const passport = require('../middleware/passport-google.js')
 
 const router = express.Router();
 
@@ -13,9 +14,30 @@ router.use('/users', userRoutes);
 router.use('/adoptions', adoptionRoutes);
 router.use('/reports', reportRoutes);
 
-router.get('/', (req, res) => {
-    res.send('Animal Rescue API is running correctly');
+
+router.get(
+    '/login',
+    passport.authenticate('oauth-google', {
+        /* #swagger.ignore = true */
+        scope: ['profile', 'email']
+    })
+);
+
+router.get('/logout', (req, res, next) => {
+     /* #swagger.ignore = true */
+    req.logout((err) => {
+        if (err) {
+            return next(err);
+        }
+
+        res.redirect('/');
+    });
 });
+
+
+// router.get('/', (req, res) => {
+//     res.send('Animal Rescue API is running correctly');
+// });
 
 module.exports = router;
  
