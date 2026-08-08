@@ -15,10 +15,21 @@ router.use('/adoptions', adoptionRoutes);
 router.use('/reports', reportRoutes);
 
 
-router.get('/login', passport.authenticate('google'),(req, res) => {});
-router.get('/logout', function(req, res, next) {
-    req.logout(function(err) {
-        if (err) { return next(err); }
+router.get(
+    '/login',
+    passport.authenticate('oauth-google', {
+        /* #swagger.ignore = true */
+        scope: ['profile', 'email']
+    })
+);
+
+router.get('/logout', (req, res, next) => {
+     /* #swagger.ignore = true */
+    req.logout((err) => {
+        if (err) {
+            return next(err);
+        }
+
         res.redirect('/');
     });
 });

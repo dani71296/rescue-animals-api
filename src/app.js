@@ -17,9 +17,9 @@ connectDB();
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: true,
-})),
-    app.use(passport.initialize())
+    saveUninitialized: false,
+}));
+app.use(passport.initialize())
 app.use(passport.session())
 app.use(cors())
 app.use(express.json())
@@ -36,13 +36,17 @@ app.get('/', (req, res) => {
     res.send(req.session.user !== undefined ? `Logged in as ${req.session.user.displayName}` : "Logged Out")
 });
 
-app.get('/google/callback', passport.authenticate('google', {
-    failureRedirect: '/api-docs', session: false
-}),
+
+app.get(
+    '/google/callback',
+    passport.authenticate('oauth-google', {
+        failureRedirect: '/api-docs'
+    }),
     (req, res) => {
         req.session.user = req.user;
-        res.redirect('/')
-    });
+        res.redirect('/');
+    }
+);
 
 
 if (process.env.NODE_ENV !== 'test') {
