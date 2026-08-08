@@ -411,7 +411,7 @@
         "tags": [
           "Adoptions"
         ],
-        "description": "Endpoint to create a new adoptions in the database.",
+        "description": "Endpoint to create a new adoption in the database.",
         "parameters": [
           {
             "name": "body",
@@ -470,7 +470,7 @@
       },
       "put": {
         "tags": [
-          "Adoption"
+          "Adoptions"
         ],
         "description": "Endpoint to update a adoption by ID.",
         "parameters": [
@@ -516,7 +516,7 @@
       },
       "delete": {
         "tags": [
-          "Adoption"
+          "Adoptions"
         ],
         "description": "Endpoint to delete a adoption from the database.",
         "parameters": [

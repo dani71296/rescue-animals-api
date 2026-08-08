@@ -1,7 +1,7 @@
 const Adoption = require('../models/Adoption');
 const mongoose = require('mongoose');
 
-// GET /users - Obtener todas las adopciones
+// GET /adoptions - Obtener todas las adopciones
 exports.getAllAdoptions = async (req, res, next) => {
     // #swagger.tags = ['Adoptions'];
     // #swagger.description = 'Endpoint to retrieve all Adoptions from the database.';
@@ -10,7 +10,7 @@ exports.getAllAdoptions = async (req, res, next) => {
             .populate('userId')
             .populate('animalId');
 
-        res.status(200).json(users);
+        res.status(200).json(adoptions);
     } catch (error) {
         next(error);
     }
@@ -26,7 +26,7 @@ exports.getAdoptionById = async (req, res, next) => {
             .populate('animalId');
 
         if (!adoption) {
-            return res.status(404).json({ message: 'Adopton not found' });
+            return res.status(404).json({ message: 'Adoption not found' });
         }
         res.status(200).json(adoption);
     } catch (error) {
@@ -34,12 +34,10 @@ exports.getAdoptionById = async (req, res, next) => {
     }
 };
 
-    
 // POST /adoptions - Crear una nueva adopción
 exports.createAdoption = async (req, res, next) => {
     //#swagger.tags = ['Adoptions'];
-    //#swagger.description = 'Endpoint to create a new adoptions in the database.';
-    
+    //#swagger.description = 'Endpoint to create a new adoption in the database.';
     try {
         const adoption = new Adoption({
             userId: req.body.userId,
@@ -61,10 +59,9 @@ exports.createAdoption = async (req, res, next) => {
     }
 };
 
-
-   // PUT /adoptions/:id - Actualizar una adopción
+// PUT /adoptions/:id - Actualizar una adopción
 exports.updateAdoption = async (req, res, next) => {
-    //#swagger.tags = ['Adoption'];
+    //#swagger.tags = ['Adoptions'];
     //#swagger.description = 'Endpoint to update a adoption by ID.';
     try {
         const updateData = {
@@ -96,12 +93,11 @@ exports.updateAdoption = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-}; 
-    
+};
 
 // DELETE /adoptions/:id - Eliminar una adopción
 exports.deleteAdoption = async (req, res, next) => {
-    // #swagger.tags = ['Adoption'];
+    // #swagger.tags = ['Adoptions'];
     // #swagger.description = 'Endpoint to delete a adoption from the database.';     
     try {
         const deletedAdoption = await Adoption.findByIdAndDelete(

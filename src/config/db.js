@@ -1,4 +1,11 @@
 const mongoose = require('mongoose');
+const dns = require('dns');
+
+// Forzar uso de servidores DNS públicos para resolver SRV de MongoDB Atlas en Windows
+dns.setServers(['8.8.8.8', '1.1.1.1']);
+if (dns.setDefaultResultOrder) {
+    dns.setDefaultResultOrder('ipv4first');
+}
 
 // Función para conectar a la base de datos leyendo la URI desde las variables de entorno
 const connectDB = async () => {
