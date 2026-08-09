@@ -19,7 +19,11 @@ exports.getReportById = async (req, res, next) => {
     // #swagger.tags = ['Reports'];
     // #swagger.description = 'Endpoint to retrieve a report by ID.';
     try {
-        const report = await Report.findById(req.params.id).populate('userId', 'name email phone');
+        const reportId = req.params.id;
+        if (!mongoose.Types.ObjectId.isValid(reportId)) {
+            return res.status(400).json({ message: 'Invalid report ID' });
+        }
+        const report = await Report.findById(reportId).populate('userId', 'name email phone');
         if (!report) {
             return res.status(404).json({ message: 'Report not found' });
         }
@@ -156,7 +160,11 @@ exports.deleteReport = async (req, res, next) => {
     // #swagger.tags = ['Reports'];
     // #swagger.description = 'Endpoint to delete a report from the database.';
     try {
-        const deletedReport = await Report.findByIdAndDelete(req.params.id);
+        const reportId = req.params.id;
+        if (!mongoose.Types.ObjectId.isValid(reportId)) {
+            return res.status(400).json({ message: 'Invalid report ID' });
+        }
+        const deletedReport = await Report.findByIdAndDelete(reportId);
         if (!deletedReport) {
             return res.status(404).json({ message: 'Report not found' });
         }

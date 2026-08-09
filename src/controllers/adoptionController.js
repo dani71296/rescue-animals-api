@@ -21,7 +21,11 @@ exports.getAdoptionById = async (req, res, next) => {
     // #swagger.tags = ['Adoptions'];
     // #swagger.description = 'Endpoint to retrieve a adoption by ID.';
     try {
-        const adoption = await Adoption.findById(req.params.id)
+        const adoptionId = req.params.id;
+        if (!mongoose.Types.ObjectId.isValid(adoptionId)) {
+            return res.status(400).json({ message: 'Invalid adoption ID' });
+        }
+        const adoption = await Adoption.findById(adoptionId)
             .populate('userId')
             .populate('animalId');
 
@@ -64,6 +68,10 @@ exports.updateAdoption = async (req, res, next) => {
     //#swagger.tags = ['Adoptions'];
     //#swagger.description = 'Endpoint to update a adoption by ID.';
     try {
+        const adoptionId = req.params.id;
+        if (!mongoose.Types.ObjectId.isValid(adoptionId)) {
+            return res.status(400).json({ message: 'Invalid adoption ID' });
+        }
         const updateData = {
             userId: req.body.userId,
             animalId: req.body.animalId,
@@ -73,7 +81,7 @@ exports.updateAdoption = async (req, res, next) => {
         };
 
         const updatedAdoption = await Adoption.findByIdAndUpdate(
-            req.params.id,
+            adoptionId,
             { $set: updateData },
             {
                 new: true,
@@ -100,9 +108,11 @@ exports.deleteAdoption = async (req, res, next) => {
     // #swagger.tags = ['Adoptions'];
     // #swagger.description = 'Endpoint to delete a adoption from the database.';     
     try {
-        const deletedAdoption = await Adoption.findByIdAndDelete(
-            req.params.id
-        );
+        const adoptionId = req.params.id;
+        if (!mongoose.Types.ObjectId.isValid(adoptionId)) {
+            return res.status(400).json({ message: 'Invalid adoption ID' });
+        }
+        const deletedAdoption = await Adoption.findByIdAndDelete(adoptionId);
 
         if (!deletedAdoption) {
             return res.status(404).json({

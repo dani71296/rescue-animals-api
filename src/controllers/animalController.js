@@ -18,7 +18,11 @@ exports.getAnimalById = async (req, res, next) => {
     // #swagger.tags = ['Animals'];
     // #swagger.description = 'Endpoint to retrieve an animal by ID.';
     try {
-        const animal = await Animal.findById(req.params.id);
+        const animalId = req.params.id;
+        if (!mongoose.Types.ObjectId.isValid(animalId)) {
+            return res.status(400).json({ message: 'Invalid animal ID' });
+        }
+        const animal = await Animal.findById(animalId);
         if (!animal) {
             return res.status(404).json({ message: 'Animal not found' });
         }
@@ -92,8 +96,8 @@ exports.updateAnimal = async (req, res, next) => {
             }
         }
     */
-   const animalid = req.params.id;
-   if (!mongoose.Types.ObjectId.isValid(animalid)) {
+   const animalId = req.params.id;
+   if (!mongoose.Types.ObjectId.isValid(animalId)) {
         return res.status(400).json({ message: 'Invalid animal ID' });
     }
     const updateDataAnimal = {
@@ -108,7 +112,7 @@ exports.updateAnimal = async (req, res, next) => {
     };
     try {
         const updatedAnimal = await Animal.findByIdAndUpdate(
-            animalid,
+            animalId,
             { $set: updateDataAnimal },
             { new: true, runValidators: true }
         );
@@ -126,7 +130,11 @@ exports.deleteAnimal = async (req, res, next) => {
     // #swagger.tags = ['Animals'];
     // #swagger.description = 'Endpoint to delete an animal from the database.';
     try {
-        const deletedAnimal = await Animal.findByIdAndDelete(req.params.id);
+        const animalId = req.params.id;
+        if (!mongoose.Types.ObjectId.isValid(animalId)) {
+            return res.status(400).json({ message: 'Invalid animal ID' });
+        }
+        const deletedAnimal = await Animal.findByIdAndDelete(animalId);
         if (!deletedAnimal) {
             return res.status(404).json({ message: 'Animal not found' });
         }

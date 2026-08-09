@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 describe('GET /users', () => {
 
     afterAll(async () => {
-        await mongoose.connection.close();
+        await mongoose.disconnect();
     });
 
     it('should respond with status 200 and a list of users', async () => {

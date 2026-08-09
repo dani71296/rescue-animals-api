@@ -18,7 +18,11 @@ exports.getUserById = async (req, res, next) => {
     // #swagger.tags = ['Users'];
     // #swagger.description = 'Endpoint to retrieve a user by ID.';
     try {
-        const user = await User.findById(req.params.id);
+        const userId = req.params.id;
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            return res.status(400).json({ message: 'Invalid user ID' });
+        }
+        const user = await User.findById(userId);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
@@ -158,7 +162,11 @@ exports.deleteUser = async (req, res, next) => {
     // #swagger.tags = ['Users'];
     // #swagger.description = 'Endpoint to delete a user from the database.';   
     try {
-        const deletedUser = await User.findByIdAndDelete(req.params.id);
+        const userId = req.params.id;
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            return res.status(400).json({ message: 'Invalid user ID' });
+        }
+        const deletedUser = await User.findByIdAndDelete(userId);
         if (!deletedUser) {
             return res.status(404).json({ message: 'User not found' });
         }
